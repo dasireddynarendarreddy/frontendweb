@@ -13,7 +13,7 @@ function Chart() {
   useEffect(() => {
     // Avoid re-creating socket if already connected
     if (!socket) {
-      socket = io("http://localhost:3000",{
+      socket = io(backend_url,{
 
       }); // Create socket only once
     }
