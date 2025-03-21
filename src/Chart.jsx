@@ -9,10 +9,11 @@ function Chart() {
    const {name,mail}=useContext(Validuser)
    const[status,setstatus]=useState(false)
    const backend_url = import.meta.env.VITE_BACKEND_URL
+   console.log(backend_url)
   useEffect(() => {
     // Avoid re-creating socket if already connected
     if (!socket) {
-      socket = io(backend_url,{
+      socket = io("http://localhost:3000",{
 
       }); // Create socket only once
     }
