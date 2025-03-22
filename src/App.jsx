@@ -18,7 +18,7 @@ function App() {
   const [mail, setmail] = useState(parsedData ? parsedData.mail : "");
    
   return (
-    <div>
+    <>
 <Validuser.Provider value={{isvalid,setvalid,name,setname,mail,setmail}} >
       <Routes>
 
@@ -29,7 +29,7 @@ function App() {
         <Route path="/" element={<User olduser={isvalid}/>}/>
       </Routes>
       </Validuser.Provider>
-    </div>
+    </>
   )
 }
 

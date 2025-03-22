@@ -21,13 +21,13 @@ function User({olduser}) {
 
     }
   return (
-    <div>
+    <>
         <label>name</label>
       <input type="text" value={name} placeholder="enter your name" onChange={(e)=>setname(e.target.value)}/>
       <label>mail</label>
       <input type="text" value={mail} placeholder='enter your mail' onChange={(e)=>setmail(e.target.value)}/>
       <button onClick={startChart}>start chat</button>
-    </div>
+    </>
   )
 }
 

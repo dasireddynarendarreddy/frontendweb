@@ -8,12 +8,12 @@ function Chart() {
   const [ymsg,setymsg]=useState('')
    const {name,mail}=useContext(Validuser)
    const[status,setstatus]=useState(false)
-   const backend_url = import.meta.env.VITE_BACKEND_URL
+   const backend_url = "https://localhost:3000"
    console.log(backend_url)
   useEffect(() => {
     // Avoid re-creating socket if already connected
     if (!socket) {
-      socket = io(backend_url,{
+      socket = io("http://localhost:3000",{
 
       }); // Create socket only once
     }
@@ -21,7 +21,7 @@ function Chart() {
     // Listen for incoming messages
     socket.on("message", (data) => {
       console.log("Message from server:", data);
-      setMessage([...message,data]);
+      setMessage(data);
     });
     socket.emit("senddata",{name:name,mail:mail,uid:JSON.parse(localStorage.getItem("isvalidusertochart")).uid})
    socket.on("count",(data)=>{
@@ -38,7 +38,8 @@ function Chart() {
   }, []); // Empty dependency array means this runs only once
   const sendMessage=()=>{
     socket.emit("message",ymsg)
-    console.log(message)
+    console.log(typeof message)
+    console.log(message.length)
     setymsg('')
   }
   const getMessage=(e)=>{
@@ -48,20 +49,33 @@ function Chart() {
   }
 
   return (
-    <div className="App">
-      <h3>welcome {name}</h3>
-      <h5>{status?"typing":""}</h5>
-      {
-        message.length>0?message.map((d,i)=>(
-          <div>
-           <div>{d}</div>
-          </div>
-        )):""
-      }
-      <input type="text" value={ymsg} onChange={getMessage}/>
-      <button onClick={sendMessage}>send</button>
+    <>
+    
+  
+    <div className="w-full">
+    {message.map((d, i) => (
       
-    </div>
+        <div key={i} className="p-2 bg-blue-200">{d}</div>
+        
+      ))}
+      </div>
+   
+    
+
+
+<input
+  type="text"
+  value={ymsg}
+  onChange={getMessage}
+  className="border p-1 mt-2"
+/>
+<button
+  onClick={sendMessage}
+  className="bg-blue-500 text-white px-4 py-1 mt-2"
+>
+  Send
+</button>
+</>
   );
 }
 
