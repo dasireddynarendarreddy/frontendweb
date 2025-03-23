@@ -18,7 +18,7 @@ function Chart() {
   useEffect(() => {
     console.log(import.meta.env.MODE)
     if (!socket) {
-      socket = io((import.meta.env.MODE === 'production'?import.meta.env.VITE_FRONTEND_URL:"http://localhost:3000"),{
+      socket = io((import.meta.env.MODE === 'production'?import.meta.env.VITE_VITE_BACKEND_URL:"http://localhost:3000"),{
         
       }); 
       console.log(socket)
