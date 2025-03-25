@@ -1,21 +1,20 @@
-import { useState, useEffect, useContext } from "react";
-import { io } from "socket.io-client";
+import { useState,useContext } from "react";
+
 import { Validuser } from "./App";
-import { Link } from "react-router-dom";
 let socket; // Declare socket outside to persist across renders
 import { useNavigate } from "react-router-dom";
 
 function Chart() {
-  const [message, setMessage] = useState([]);
+  
   const [ymsg,setymsg]=useState('')
-   const {name,mail,setsocket}=useContext(Validuser)
+   const {name,mail,message,socketobj}=useContext(Validuser)
    const[status,setstatus]=useState(false)
    const backend_url = "https://localhost:3000"
    const frontendUrl= import.meta.env.VITE_FRONTEND_URL;
    const navigate=useNavigate()
    
    console.log(backend_url)
-  useEffect(() => {
+  {/*useEffect(() => {
     console.log(import.meta.env.MODE)
     if (!socket) {
       socket = io((import.meta.env.MODE === 'production'?import.meta.env.VITE_BACKEND_URL:"http://localhost:3000"),{
@@ -28,7 +27,9 @@ function Chart() {
     // Listen for incoming messages
     socket.on("message", (data) => {
       console.log("Message from server:", data);
+      
       setMessage(data);
+      console.log(data)
     });
     socket.emit("senddata",{name:name,mail:mail,uid:JSON.parse(localStorage.getItem("isvalidusertochart")).uid})
    socket.on("count",(data)=>{
@@ -42,9 +43,9 @@ function Chart() {
         socket = null; // Reset socket to avoid re-creating
       }
     };
-  }, []); // Empty dependency array means this runs only once
+  }, []); // Empty dependency array means this runs only once*/}
   const sendMessage=()=>{
-    socket.emit("message",{name:name,msg:ymsg})
+    socketobj.emit("message",{name:name,msg:ymsg})
     console.log(typeof message)
     console.log(message.length)
     setymsg('')
@@ -86,15 +87,15 @@ function Chart() {
 
            {message.map((d, i) => (
       
-        name==d.msg?
-        <div class="flex justify-end"><div key={i} className="bg-blue-200 text-black p-2 rounded-lg max-w-xs">{d}</div></div>:<div class="flex">
+        name==d.name?
+        <div class="flex justify-end"><div key={i} className="bg-blue-200 text-black p-2 rounded-lg max-w-xs">{d.msg}</div></div>:<div class="flex">
         <div class="bg-gray-300 text-black p-2 rounded-lg max-w-xs">
             {d.msg}
         </div>
     </div>
         
       ))} 
-            
+      
     
     <div class="bg-white p-4 flex items-center">
         <input type="text" placeholder="Type your message..." class="flex-1 border rounded-full px-4 py-2 focus:outline-none" value={ymsg} onChange={(e)=>setymsg(e.target.value)}/>
